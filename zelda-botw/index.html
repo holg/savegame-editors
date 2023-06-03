@@ -17,7 +17,12 @@
 	<script type="text/javascript" src="./zelda-botw.master.js"></script>
 	<script type="text/javascript"><!--
 		/* service worker */
-		var FORCE_HTTPS=true;
+		if (location.href.search('localhost') || location.href.search('localhost') || location.href.search('192.168.')) {
+			var FORCE_HTTPS=false;
+		}else {
+			var FORCE_HTTPS=true;
+		}
+
 		window.addEventListener('load',function(){
 			if(location.protocol==='http:' && FORCE_HTTPS)
 				location.replace(window.location.href.replace('http:','https:'));
@@ -36,7 +41,7 @@
 			<div class="six columns text-left"><img src="./assets/logo.png" style="max-width:90%"/></div>
 			<div class="six columns text-right header-buttons">
 				by <a href="/" class="author">Marc Robledo</a>
-				<a href="https://github.com/marcrobledo/savegame-editors/tree/master/zelda-botw" target="_blank" class="button"><span class="sprite github"></span> See on GitHub</a>
+				<a href="https://github.com/holg/savegame-editors/tree/master/zelda-botw" target="_blank" class="button"><span class="sprite github"></span> See on GitHub</a>
 				<a href="https://www.paypal.me/marcrobledo/5" target="_blank" rel="nofollow" class="donate button"><span class="sprite heart"></span> Donate</a>
 			</div>
 		</div>
