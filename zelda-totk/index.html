@@ -10,17 +10,19 @@
 	<link type="text/css" rel="stylesheet" href="./zelda-totk.css" media="all"/>
 	<script type="text/javascript" src="../savegame-editor.js"></script>
 	<script type="text/javascript" src="./zelda-totk.js"></script>
-	<script type="text/javascript" src="./zelda-totk.class.armor.js"></script>
-	<script type="text/javascript" src="./zelda-totk.class.equipment.js"></script>
-	<script type="text/javascript" src="./zelda-totk.class.horse.js"></script>
-	<script type="text/javascript" src="./zelda-totk.class.item.js"></script>
-	<script type="text/javascript" src="./zelda-totk.class.korok.js"></script>
-	<script type="text/javascript" src="./zelda-totk.class.mappin.js"></script>
-	<script type="text/javascript" src="./zelda-totk.class.shrine.js"></script>
-	<script type="text/javascript" src="./zelda-totk.class.schematics.js"></script>
-	<script type="text/javascript" src="./zelda-totk.class.compendium.js"></script>
-	<script type="text/javascript" src="./zelda-totk.master.js"></script>
-	<script type="text/javascript" src="./murmurhash3js.min.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.class.armor.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.class.equipment.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.class.horse.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.class.item.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.class.korok.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.class.mappin.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.class.shrine.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.class.schematics.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.class.compendium.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.class.autobuilder.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.locale.js"></script>
+	<script defer type="text/javascript" src="./zelda-totk.master.js"></script>
+	<script defer type="text/javascript" src="./murmurhash3js.min.js"></script>
 	<script type="text/javascript"><!--
 		/* service worker */
 		/*var FORCE_HTTPS=true;
@@ -61,7 +63,7 @@
 				<button id="tab-button-key" title="Key items" class="tab-button" onclick="showTab('key')"><i class="tab-icon other"></i></button>
 				<button id="tab-button-horses" title="Horses" class="tab-button" onclick="showTab('horses')"><i class="tab-icon horses"></i></button>
 				<button id="tab-button-master" title="Master editor" class="tab-button" onclick="showTab('master')"><i class="tab-icon master"></i></button>
-				<!-- <button id="tab-button-help" title="Help" class="tab-button" onclick="showTab('help')"><i class="tab-icon help"></i></button> -->
+				<button id="tab-button-settings" title="Settings" class="tab-button" onclick="showTab('settings')"><i class="tab-icon settings"></i></button>
 				| <button class="button with-icon icon3" onclick="closeFile()">Close file</button>
 				<button class="button colored blue with-icon icon9" onclick="saveChanges()">Save changes</button>
 			</div>
@@ -369,6 +371,49 @@
 				<button onclick="addLocationsToMap()">Add pins to Map</button>
 			</div>
 		</div> -->
+
+		<!-- AUTOBUILDER -->
+		<h3 class="border-grey">Autobuilder</h3>
+		<div class="row mb-10">
+			<div class="twelve columns">
+				<label>Design <select id="select-autobuilder-index" style="width:auto">
+					<option value="0">01</option>
+					<option value="1">02</option>
+					<option value="2">03</option>
+					<option value="3">04</option>
+					<option value="4">05</option>
+					<option value="5">06</option>
+					<option value="6">07</option>
+					<option value="7">08</option>
+					<option value="8">09</option>
+					<option value="9">10</option>
+					<option value="10">11</option>
+					<option value="11">12</option>
+					<option value="12">13</option>
+					<option value="13">14</option>
+					<option value="14">15</option>
+					<option value="15">16</option>
+					<option value="16">17</option>
+					<option value="17">18</option>
+					<option value="18">19</option>
+					<option value="19">20</option>
+					<option value="20">21</option>
+					<option value="21">22</option>
+					<option value="22">23</option>
+					<option value="23">24</option>
+					<option value="24">25</option>
+					<option value="25">26</option>
+					<option value="26">27</option>
+					<option value="27">28</option>
+					<option value="28">29</option>
+					<option value="29">30</option>
+				</select></label>
+				<button id="button-autobuilder-export">Export</button>
+				<button id="button-autobuilder-import">Import</button>
+				<input id="input-file-autobuilder-import" type="file" accept=".totkab" style="display:none" />
+				<span style="color:red"><strong>Currently on alpha</strong>. Use this on your own risk!</span>
+			</div>
+		</div>
 	</div>
 	
 	<!-- TAB: WEAPONS -->
@@ -484,12 +529,44 @@
 		</div>
 	</div>
 
-	<!-- TAB: HELP -->
-	<div id="tab-help">
+	<!-- TAB: SETTINGS -->
+	<div id="tab-settings">
+		<h3 class="border-orange">Settings</h3>
+		<div id="box-settings">
+			<div>
+				<label for="select-language">Item language</label>
+				<select id="select-language">
+					<option value="en">English</option>
+					<option value="fr">Français</option>
+					<option value="fr_alt">Français (Canada)</option>
+					<option value="de">Deutsch</option>
+					<option value="it">Italiano</option>
+					<option value="es">Español</option>
+					<option value="es_alt">Español latino</option>
+					<option value="nl">Dutch</option>
+					<option value="ru">Russian</option>
+					<option value="ja">Japanese</option>
+					<option value="ko">Korean</option>
+					<option value="zh">Chinese (simplified)</option>
+					<option value="zh_alt">Chinese (traditional)</option>
+				</select>
+			</div>
+			<div>
+				<label><input type="checkbox" id="checkbox-warning-delete" checked> Warn when deleting item</select>
+			</div>
+		</div>
+		<h3 class="border-blue">Troubleshooting</h3>
+
+		<p>Please read and check the <a href="https://github.com/marcrobledo/savegame-editors/wiki/TOTK-known-issues-&-FAQ" target="_blank">list of known issues</a> if you are having problems when loading/saving your edited savegame.</p>
+		<p><strong>Always remember to make backups of your savegames before editing. Use this savegame editor at your own risk. By using it, you are responsible of any data lost.</strong></p>		
 	</div>
 </div>
 
 <div id="dialog-caption" class="dialog text-center"></div>
 
+
+<div id="toast-loading" style="display:none">
+	Loading <span id="span-loading-filename"></span>...
+</div>
 </body>
 </html>

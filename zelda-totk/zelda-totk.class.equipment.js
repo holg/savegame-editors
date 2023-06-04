@@ -1,8 +1,8 @@
 /*
-	The legend of Zelda: Tears of the Kingdom Savegame Editor (Equipment class) v20230602
+	The legend of Zelda: Tears of the Kingdom Savegame Editor (Equipment class) v20230604
 
 	by Marc Robledo 2023
-	item names compiled by Echocolat, Exincracci, HylianLZ and Karlos007
+	research and item names compiled by Echocolat, Exincracci, HylianLZ, Karlos007 and ApacheThunder
 */
 
 function Equipment(catId, index, id, durability, modifier, modifierValue, fuseId){ //Weapon, Bow or Shield
@@ -21,10 +21,15 @@ function Equipment(catId, index, id, durability, modifier, modifierValue, fuseId
 	Equipment.buildHtmlElements(this);
 }
 Equipment.prototype.getItemTranslation=function(){
+	if(Locale._(this.id))
+		return Locale._(this.id);
 	return Equipment.TRANSLATIONS[this.category][this.id] || this.id;
 }
 Equipment.prototype.isFusable=function(){
 	return (this.category==='weapons' || this.category==='shields')
+}
+Equipment.prototype.fixValues=function(){
+	this._htmlInputDurability.maxValue=this.getMaximumDurability();
 }
 Equipment.prototype.restoreDurability=function(){
 	this.durability=this.getMaximumDurability();
@@ -119,9 +124,8 @@ Equipment.buildHtmlElements=function(item){
 		var fromNoBonus=item.modifier===Equipment.MODIFIER_NO_BONUS;
 		var fromModifierDurability=item.modifier===Equipment.MODIFIER_DURABILITY || item.modifier===Equipment.MODIFIER_DURABILITY2;
 		item.modifier=parseInt(this.value);
-		
-		var maximumDurability=item.getMaximumDurability();
-		get('number-item-durability-'+item.category+'-'+item.index).maxValue=maximumDurability;
+
+		item.fixValues();
 
 		if(item.modifier===Equipment.MODIFIER_NO_BONUS){
 			item.modifierValue=0;
@@ -155,6 +159,8 @@ Equipment.buildHtmlElements=function(item){
 	if(item.isFusable()){
 		item._htmlSelectFusion=select('item-fusion-'+item.category+'-'+item.index, Equipment.FUSABLE_ITEMS, function(){
 			item.fuseId=this.value;
+			item.restoreDurability();
+			item.fixValues();
 		}, item.fuseId);
 		item._htmlSelectFusion.title='Fusion';
 	}
@@ -242,6 +248,7 @@ Equipment.DEFAULT_DURABILITY={
 	Weapon_Sword_167:4,
 	Weapon_Sword_168:12,
 	Weapon_Sword_077:30,
+	Npc_Zelda_Torch:8,
 
 	Weapon_Lsword_001:20,
 	Weapon_Lsword_002:25,
@@ -428,6 +435,8 @@ Weapon_Sword_166:'Gloom Sword',
 Weapon_Sword_167:'Tree Branch (sky)',
 Weapon_Sword_168:'Wooden Stick (decayed)',
 Weapon_Sword_077:'Master Sword (glitched)',
+
+Npc_Zelda_Torch:'*Zelda\'s intro torch (unused)',
 
 Weapon_Lsword_001:'Traveler\'s Claymore',
 Weapon_Lsword_002:'Soldier\'s Claymore',
